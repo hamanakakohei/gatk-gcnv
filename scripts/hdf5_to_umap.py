@@ -7,6 +7,8 @@ from pathlib import Path
 from sklearn.decomposition import PCA
 import umap
 import matplotlib.pyplot as plt
+import pickle
+import sys
 
 
 def load_counts_hdf5(path):
@@ -27,7 +29,6 @@ def load_counts_hdf5(path):
         "end": end[autosome_mask],
         "read_count": counts[autosome_mask]
     })
-
     return df
 
 
@@ -70,42 +71,87 @@ def variance_filter(X, low, high):
 
 def main():
     parser = argparse.ArgumentParser(description="")
-    parser.add_argument("--input", required=True, type=str, help="hdf5ファイルのリストが書かれたファイル")
+    parser.add_argument("--input", required=True, type=str, help="1列目：CollectCounts hdf5、2列目：メタ情報（バッチ、性別、etc）")
+    parser.add_argument("--load-pickle", help="Load intermediate pickle and start from there")
+    parser.add_argument("--dump-pickle", help="Save intermediate pickle")
+
     parser.add_argument("--bin-size", type=int, default=1, help="Merge N consecutive intervals")
     parser.add_argument("--transform", choices=["log", "sqrt"], default="log")
     parser.add_argument("--var-low", type=float, default=0.01, help="Lower quantile for variance filter")
     parser.add_argument("--var-high", type=float, default=0.99, help="Upper quantile for variance filter")
+    parser.add_argument("--plot-variance", action="store_true", help="Plot variance distribution and exit")
+
     parser.add_argument("--pca-dim", type=int, default=20, help="Number of PC for UMAP")
+    parser.add_argument("--plot-pca-variance", type=int, help="Plot explained variance of top N PCs and exit")
     parser.add_argument("--umap-neighbors", type=int, default=15)
     parser.add_argument("--umap-min-dist", type=float, default=0.3)
-    parser.add_argument("--sample-class", help="サンプルメタデータファイル: sample<TAB>class")
     parser.add_argument("--out-prefix", default="out")
     args = parser.parse_args()
 
-    # 準備（bin集約 --> トータルで割る --> log/sqrt変換 --> 分散でフィルター）
-    with open(args.input) as f:
-        hdf5_paths = [l.strip() for l in f]
+    
+    # hdf5ファイルリストを読み込むか、読み込み後のpickleファイルから再開するか
+    if args.load_pickle:
+        with open(args.load_pickle, "rb") as f:
+            data = pickle.load(f)
+        X = data["X"]
+        sample_names = data["sample_names"]
+        labels = data["labels"]
+    else:
+        df = pd.read_csv(args.input, sep="\t", header=None)
+        paths = df[0].tolist()
+        labels = df[1].fillna("NA").astype(str).tolist() if df.shape[1] > 1 else ["NA"] * len(paths)
+        X, sample_names = load_multiple_samples(paths)
+        if args.dump_pickle:
+            with open(args.dump_pickle, "wb") as f:
+                pickle.dump(
+                    {"X": X, "sample_names": sample_names, "labels": labels},
+                    f
+                )
 
-    X, sample_names = load_multiple_samples(hdf5_paths)
+    
+    # 準備（bin集約 --> トータルで割る --> log/sqrt変換 --> 分散でフィルター）
     X = bin_intervals(X, args.bin_size)
     X = X / X.sum(axis=1, keepdims=True)
     X = transform(X, args.transform)
+    var = X.var(axis=0)
+
+    if args.plot_variance:
+        lo_q = np.quantile(var, args.var_low)
+        hi_q = np.quantile(var, args.var_high)
+
+        plt.figure(figsize=(6, 4))
+        plt.hist(var, bins=100, log=True)
+        plt.axvline(lo_q, color="red", linestyle="--", label=f"low ({args.var_low:.2f})")
+        plt.axvline(hi_q, color="blue", linestyle="--", label=f"high ({args.var_high:.2f})")
+
+        plt.xlabel("Variance across samples")
+        plt.ylabel("Number of intervals")
+        plt.title("Variance distribution (before filtering)")
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(f"{args.out_prefix}.variance.png", dpi=300)
+        return
+    
     X = variance_filter(X, args.var_low, args.var_high)
 
-    if args.sample_class:
-        batch_df = pd.read_csv(
-            args.sample_class, sep="\t", header=None,
-            names=["sample", "batch"]
-        )
-        batch_map = dict(zip(batch_df.sample, batch_df.batch))
-        batch_labels = [batch_map.get(s, "NA") for s in sample_names]
-    else:
-        batch_labels = ["NA"] * len(sample_names)
 
     # PCA --> UMAP
     pca = PCA(n_components=args.pca_dim)
     X_pca = pca.fit_transform(X)
 
+    if args.plot_pca_variance:
+        n = args.plot_pca_variance
+        plt.figure(figsize=(6, 4))
+        plt.bar(
+            range(1, n + 1),
+            pca.explained_variance_ratio_[:n]
+        )
+        plt.xlabel("Principal Component")
+        plt.ylabel("Explained Variance Ratio")
+        plt.tight_layout()
+        plt.savefig(f"{args.out_prefix}.pca_variance.png", dpi=300)
+        return
+    
     reducer = umap.UMAP(
         n_neighbors=args.umap_neighbors,
         min_dist=args.umap_min_dist,
@@ -113,14 +159,16 @@ def main():
     )
     embedding = reducer.fit_transform(X_pca)
 
+    
     # Plot
     plt.figure(figsize=(6, 6))
-    scatter = plt.scatter(
+    plt.scatter(
         embedding[:, 0],
         embedding[:, 1],
-        c=pd.factorize(batch_labels)[0],
+        c=pd.factorize(labels)[0],
         cmap="tab10",
-        s=30
+        s=30,
+        alpha=0.6
     )
     plt.xlabel("UMAP1")
     plt.ylabel("UMAP2")
