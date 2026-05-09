@@ -59,6 +59,7 @@ __WGS parameters that increase the sensitivity of calling from Mark Walker
     --log-mean-bias-standard-deviation 0.01 \
     --sample-psi-scale 1.0E-6 \
 
+https://gatk.broadinstitute.org/hc/en-us/articles/360035531152--How-to-Call-rare-germline-copy-number-variants
 Comments on select sensitivity parameters
 
 Decreasing --class-coherence-length from its default of 10,000bp to 1000bp decreases the expected length of contiguous segments. Factor for bin size when tuning.
