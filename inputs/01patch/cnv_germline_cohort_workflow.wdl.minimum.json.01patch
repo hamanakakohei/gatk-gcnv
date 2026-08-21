@@ -1,0 +1,38 @@
+{
+  "CNVGermlineCohortWorkflow_01patch.sge_queue": "xxx.q",
+  "CNVGermlineCohortWorkflow_01patch.cohort_entity_id": "MyPractice",
+  "CNVGermlineCohortWorkflow_01patch.contig_ploidy_priors": "/path/to/chrAll_contig_ploidy_priors.tsv",
+  "CNVGermlineCohortWorkflow_01patch.gatk_docker": "broadinstitute/gatk:4.6.2.0",
+  "CNVGermlineCohortWorkflow_01patch.intervals": "/path/to/gcnv-chrAll-contig.list",
+  "CNVGermlineCohortWorkflow_01patch.do_explicit_gc_correction": true,
+  "CNVGermlineCohortWorkflow_01patch.bin_length": "1000",
+  "CNVGermlineCohortWorkflow_01patch.padding": "0",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_max_copy_number": "5",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_interval_psi_scale": "1e-6",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_sample_psi_scale": "1e-6",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_cnv_coherence_length": "1000.0",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_class_coherence_length": "1000.0",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_log_mean_bias_standard_deviation": "0.01",
+  "CNVGermlineCohortWorkflow_01patch.gcnv_enable_bias_factors": false, 
+  "CNVGermlineCohortWorkflow_01patch.mappability_track_bed": "/path/to/k100.umap.bed.gz",
+  "CNVGermlineCohortWorkflow_01patch.mappability_track_bed_idx": "/path/to/k100.umap.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow_01patch.segmental_duplication_track_bed": "/path/to/segdup.ucsc.20260129.merged.bed.gz",
+  "CNVGermlineCohortWorkflow_01patch.segmental_duplication_track_bed_idx": "/path/to/segdup.ucsc.20260129.merged.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow_01patch.maximum_number_events_per_sample": "10000",
+  "CNVGermlineCohortWorkflow_01patch.maximum_number_pass_events_per_sample": "10000",
+  "CNVGermlineCohortWorkflow_01patch.CollectCounts": {
+    "counts": [
+      "/path/to/sample1.counts.hdf5",
+      "/path/to/sample2.counts.hdf5",
+    ],
+    "entity_id": [
+      "sample1",
+      "sample2",
+    ]
+  },
+  "CNVGermlineCohortWorkflow_01patch.num_intervals_per_scatter": 15000,
+  "CNVGermlineCohortWorkflow_01patch.ref_copy_number_autosomal_contigs": 2,
+  "CNVGermlineCohortWorkflow_01patch.ref_fasta": "/path/to/Homo_sapiens_assembly38.fasta",
+  "CNVGermlineCohortWorkflow_01patch.ref_fasta_fai": "/path/to/Homo_sapiens_assembly38.fasta.fai",
+  "CNVGermlineCohortWorkflow_01patch.ref_fasta_dict": "/path/to/Homo_sapiens_assembly38.dict"
+}
