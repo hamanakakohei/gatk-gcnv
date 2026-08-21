@@ -1,0 +1,49 @@
+{
+  "CNVGermlineCohortWorkflow_02.sge_queue": "xxx.q",
+  "CNVGermlineCohortWorkflow_02.WriteIntervalIndexes.docker": "python:latest",
+  "CNVGermlineCohortWorkflow_02.WriteIntervals.docker": "python:latest",
+  "CNVGermlineCohortWorkflow_02.WritePloidyCalls.docker": "python:latest",
+  "CNVGermlineCohortWorkflow_02.WriteSegmentIndexes.docker": "python:latest",
+  "CNVGermlineCohortWorkflow_02.WriteSegments.docker": "python:latest",
+  "CNVGermlineCohortWorkflow_02.cohort_entity_id": "MyPractice",
+  "CNVGermlineCohortWorkflow_02.contig_ploidy_priors": "/path/to/chrAll_contig_ploidy_priors.tsv",
+  "CNVGermlineCohortWorkflow_02.gatk_docker": "broadinstitute/gatk:4.6.2.0",
+  "CNVGermlineCohortWorkflow_02.intervals": "/path/to/gcnv-chrAll-contig.list",
+  "CNVGermlineCohortWorkflow_02.do_explicit_gc_correction": true,
+  "CNVGermlineCohortWorkflow_02.bin_length": "1000",
+  "CNVGermlineCohortWorkflow_02.padding": "0",
+  "CNVGermlineCohortWorkflow_02.gcnv_max_copy_number": "5",
+  "CNVGermlineCohortWorkflow_02.gcnv_interval_psi_scale": "1e-6",
+  "CNVGermlineCohortWorkflow_02.gcnv_sample_psi_scale": "1e-6",
+  "CNVGermlineCohortWorkflow_02.gcnv_cnv_coherence_length": "1000.0",
+  "CNVGermlineCohortWorkflow_02.gcnv_class_coherence_length": "1000.0",
+  "CNVGermlineCohortWorkflow_02.gcnv_log_mean_bias_standard_deviation": "0.01",
+  "CNVGermlineCohortWorkflow_02.gcnv_enable_bias_factors": false, 
+  "CNVGermlineCohortWorkflow_02.mappability_track_bed": "/path/to/k100.umap.bed.gz",
+  "CNVGermlineCohortWorkflow_02.mappability_track_bed_idx": "/path/to/k100.umap.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow_02.segmental_duplication_track_bed": "/path/to/segdup.ucsc.20260129.merged.bed.gz",
+  "CNVGermlineCohortWorkflow_02.segmental_duplication_track_bed_idx": "/path/to/segdup.ucsc.20260129.merged.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow_02.maximum_number_events_per_sample": "10000",
+  "CNVGermlineCohortWorkflow_02.maximum_number_pass_events_per_sample": "10000",
+  "CNVGermlineCohortWorkflow_02.allosomal_contigs": [
+    "chrX",
+    "chrY"
+  ],
+  "CNVGermlineCohortWorkflow_02.CollectCounts": {
+    "counts": [
+      "sample1.hdf5",
+      "sample2.hdf5",
+      "sample3.hdf5"
+    ],
+    "entity_id": [
+      "sample1",
+      "sample2",
+      "sample3"
+    ]
+  },
+  "CNVGermlineCohortWorkflow_02.num_intervals_per_scatter": 75000,
+  "CNVGermlineCohortWorkflow_02.ref_copy_number_autosomal_contigs": 2,
+  "CNVGermlineCohortWorkflow_02.ref_fasta": "/path/to/Homo_sapiens_assembly38.fasta",
+  "CNVGermlineCohortWorkflow_02.ref_fasta_fai": "/path/to/Homo_sapiens_assembly38.fasta.fai",
+  "CNVGermlineCohortWorkflow_02.ref_fasta_dict": "/path/to/Homo_sapiens_assembly38.dict"
+}
