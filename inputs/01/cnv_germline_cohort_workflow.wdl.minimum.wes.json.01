@@ -1,0 +1,30 @@
+{
+  "CNVGermlineCohortWorkflow.sge_queue": "xxx.q",
+  "CNVGermlineCohortWorkflow.cohort_entity_id": "MyPractice",
+  "CNVGermlineCohortWorkflow.contig_ploidy_priors": "/path/to/chrAll_contig_ploidy_priors.tsv",
+  "CNVGermlineCohortWorkflow.gatk_docker": "broadinstitute/gatk:4.6.2.0",
+  "CNVGermlineCohortWorkflow.intervals": "/path/to/twist_v1.merged.intervals",
+  "CNVGermlineCohortWorkflow.do_explicit_gc_correction": true,
+  "CNVGermlineCohortWorkflow.bin_length": "0",
+  "CNVGermlineCohortWorkflow.padding": "250",
+  "CNVGermlineCohortWorkflow.gcnv_max_copy_number": "5",
+  "CNVGermlineCohortWorkflow.mappability_track_bed": "/path/to/k100.umap.20260509.hg19.bed.gz",
+  "CNVGermlineCohortWorkflow.mappability_track_bed_idx": "/path/to/k100.umap.20260509.hg19.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow.segmental_duplication_track_bed": "/path/to/segdup.hg19.20260509.merged.primaryContig.bed.gz",
+  "CNVGermlineCohortWorkflow.segmental_duplication_track_bed_idx": "/path/to/segdup.hg19.20260509.merged.primaryContig.bed.gz.tbi",
+  "CNVGermlineCohortWorkflow.maximum_number_events_per_sample": "100",
+  "CNVGermlineCohortWorkflow.maximum_number_pass_events_per_sample": "100",
+  "CNVGermlineCohortWorkflow.normal_bams": [
+    "/path/to/bam1",
+    "/path/to/bam2"
+  ],
+  "CNVGermlineCohortWorkflow.normal_bais": [
+    "/path/to/bai1",
+    "/path/to/bai2"
+  ],
+  "CNVGermlineCohortWorkflow.num_intervals_per_scatter": 20000,
+  "CNVGermlineCohortWorkflow.ref_copy_number_autosomal_contigs": 2,
+  "CNVGermlineCohortWorkflow.ref_fasta": "/path/to/human_g1k_v37_fix.fasta",
+  "CNVGermlineCohortWorkflow.ref_fasta_fai": "/path/to/human_g1k_v37_fix.fasta.fai",
+  "CNVGermlineCohortWorkflow.ref_fasta_dict": "/path/to/human_g1k_v37_fix.dict"
+}
